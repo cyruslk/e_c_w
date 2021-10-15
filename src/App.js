@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
-import ReactWeather, { useOpenWeather } from 'react-open-weather';
+import React, { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 import Clock from "./Clock";
 import './App.css';
 import "./ec.css";
 
 
-
 function App() {
 
     const [data, setData] = useState(null);
+
+    const callback = useCallback((count) => {
+      console.log(count);
+    }, []);
 
     const runAnimation=()=>{
 
@@ -115,10 +117,6 @@ function App() {
           runAnimation(); 
         }, []);
 
-        const passImgToParent = (index) => {
-          console.log("index", index);
-        }
-
     if(!data){
       return null;
     }
@@ -128,7 +126,7 @@ function App() {
             <Clock 
               id="1"
               imgArray={data} 
-              passImgToParent={passImgToParent}
+              parentCallback={callback}
               position={"relative"}
             />
 

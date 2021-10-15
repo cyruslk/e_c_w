@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './Clock.css';
 let converter = require('number-to-words');
 
-
 function Clock(props){
 
   const {
     imgArray, 
     position, 
-    id, 
-    passImgToParent
+    id
   } = props;
 
   useEffect(() => {
@@ -87,12 +85,13 @@ function Clock(props){
   )
 };
 
+const handleClickImage = (ele) => {
+  parentCallback("");
+}
+
 
 const renderImgArray = (imgArray, returnValue, type) => {
 
-  const handleClickImage = (ele) => {
-    console.log("-", ele);
-  }
 
   const shuffledArray = imgArray.sort(() => 0.5 - Math.random());
   let selectedImg = shuffledArray.slice(0, returnValue);

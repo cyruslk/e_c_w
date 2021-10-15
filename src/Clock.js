@@ -5,7 +5,12 @@ let converter = require('number-to-words');
 
 function Clock(props){
 
-  const {imgArray, position, id} = props;
+  const {
+    imgArray, 
+    position, 
+    id, 
+    passImgToParent
+  } = props;
 
   useEffect(() => {
 
@@ -40,6 +45,7 @@ function Clock(props){
       
       sec = now.getSeconds();
 
+
       const secdeg = ((sec / 60) * 360);
       sechand.style.transform = `rotate(${secdeg}deg)`;
       
@@ -54,6 +60,7 @@ function Clock(props){
     
     cloneTicks();	
     setInterval(setTime, 1000);
+
 
   }, []);
   
@@ -83,12 +90,22 @@ function Clock(props){
 
 const renderImgArray = (imgArray, returnValue, type) => {
 
+  const handleClickImage = (ele) => {
+    console.log("-", ele);
+  }
+
   const shuffledArray = imgArray.sort(() => 0.5 - Math.random());
   let selectedImg = shuffledArray.slice(0, returnValue);
 
   if(type !== "numbers"){
     return selectedImg.map((ele) =>{
-      return <img src={ele.url} alt={""} />
+      return (
+        <img 
+          onClick={() => handleClickImage(ele)}
+          src={ele.url} 
+          alt={""} 
+        />
+      )
     });
   }else{
     return selectedImg.map((ele, index) =>{
@@ -96,7 +113,10 @@ const renderImgArray = (imgArray, returnValue, type) => {
       return (
         <div className={className}>
           <span>{index+1}</span>
-          <img src={ele.url} alt={""} />
+          <img 
+          onClick={() => handleClickImage(ele)}
+          src={ele.url} alt={""} 
+          />
         </div>
       )
     });

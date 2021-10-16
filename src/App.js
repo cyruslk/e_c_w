@@ -9,9 +9,9 @@ function App() {
 
     const [data, setData] = useState(null);
 
-    const callback = useCallback((count) => {
-      console.log(count);
-    }, []);
+    const passToParent = (ele) => {
+      console.log(ele, "from here");
+    };
 
     const runAnimation=()=>{
 
@@ -107,6 +107,7 @@ function App() {
           };
         };
 
+
         useEffect(() => {
           axios.get("https://sheet.best/api/sheets/b88ebd9c-12bb-4dc7-a9b8-6b30253f25eb")
             .then((response => {
@@ -126,7 +127,7 @@ function App() {
             <Clock 
               id="1"
               imgArray={data} 
-              parentCallback={callback}
+              passToParent={passToParent}
               position={"relative"}
             />
 

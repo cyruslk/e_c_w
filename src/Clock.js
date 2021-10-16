@@ -6,9 +6,46 @@ function Clock(props){
 
   const {
     imgArray, 
-    position, 
-    id
+    position,
+    passToParent, 
+    id,
   } = props;
+
+  const handleClickImage = (ele) => {
+    passToParent(ele)
+  }
+
+  const renderImgArray = (imgArray, returnValue, type) => {
+
+    const shuffledArray = imgArray.sort(() => 0.5 - Math.random());
+    let selectedImg = shuffledArray.slice(0, returnValue);
+  
+    if(type !== "numbers"){
+      return selectedImg.map((ele) =>{
+        return (
+          <img 
+            onClick={() => handleClickImage(ele)}
+            src={ele.url} 
+            alt={""} 
+          />
+        )
+      });
+    }else{
+      return selectedImg.map((ele, index) =>{
+        let className=`numbers ${converter.toWords(index+1)}`;
+        return (
+          <div className={className}>
+            <span>{index+1}</span>
+            <img 
+              onClick={() => handleClickImage(ele)}
+              src={ele.url} 
+              alt={""} 
+            />
+          </div>
+        )
+      });
+    }
+  };
 
   useEffect(() => {
 
@@ -59,7 +96,6 @@ function Clock(props){
     cloneTicks();	
     setInterval(setTime, 1000);
 
-
   }, []);
   
   return (
@@ -67,7 +103,9 @@ function Clock(props){
         style={{position: `${position}`}}
         className="clock">
           <div id="clockface">
-              <div className="hand hour">
+              <div 
+                onClick={handleClickImage}
+                className="hand hour">
                 {renderImgArray(imgArray, 4, "hour")}
               </div>
               <div className="hand min">
@@ -85,41 +123,5 @@ function Clock(props){
   )
 };
 
-const handleClickImage = (ele) => {
-  parentCallback("");
-}
-
-
-const renderImgArray = (imgArray, returnValue, type) => {
-
-
-  const shuffledArray = imgArray.sort(() => 0.5 - Math.random());
-  let selectedImg = shuffledArray.slice(0, returnValue);
-
-  if(type !== "numbers"){
-    return selectedImg.map((ele) =>{
-      return (
-        <img 
-          onClick={() => handleClickImage(ele)}
-          src={ele.url} 
-          alt={""} 
-        />
-      )
-    });
-  }else{
-    return selectedImg.map((ele, index) =>{
-      let className=`numbers ${converter.toWords(index+1)}`;
-      return (
-        <div className={className}>
-          <span>{index+1}</span>
-          <img 
-          onClick={() => handleClickImage(ele)}
-          src={ele.url} alt={""} 
-          />
-        </div>
-      )
-    });
-  }
-};
 
 export default Clock;

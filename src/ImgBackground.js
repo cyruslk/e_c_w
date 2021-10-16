@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
-import "./ec.css";
-import './App.css';
+
 
 function ImgBackground(props) {
 

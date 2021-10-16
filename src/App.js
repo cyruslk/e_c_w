@@ -2,15 +2,18 @@ import React, { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 import Clock from "./Clock";
 import './App.css';
-import "./ec.css";
-
 
 function App() {
 
     const [data, setData] = useState(null);
-
-    const passToParent = (ele) => {
+    
+    const handleMouseOverImg = (ele) => {
       console.log(ele, "from here");
+    };
+
+    const handleSound = () => {
+      console.log("here");
+      // handle sound here;
     };
 
     const runAnimation=()=>{
@@ -127,7 +130,8 @@ function App() {
             <Clock 
               id="1"
               imgArray={data} 
-              passToParent={passToParent}
+              handleMouseOverImg={handleMouseOverImg}
+              handleSound={handleSound}
               position={"relative"}
             />
 

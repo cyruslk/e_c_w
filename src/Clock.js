@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Clock.css';
+import './App.css';
 let converter = require('number-to-words');
 
 function Clock(props){
@@ -7,13 +7,14 @@ function Clock(props){
   const {
     imgArray, 
     position,
-    passToParent, 
+    handleMouseOverImg,
+    handleSound,
     id,
   } = props;
 
-  const handleClickImage = (ele) => {
-    passToParent(ele)
-  }
+  const handleMouseOverImgToProps = (ele) => {
+    handleMouseOverImg(ele)
+  };
 
   const renderImgArray = (imgArray, returnValue, type) => {
 
@@ -24,7 +25,8 @@ function Clock(props){
       return selectedImg.map((ele) =>{
         return (
           <img 
-            onClick={() => handleClickImage(ele)}
+            onMouseEnter={() => handleMouseOverImgToProps(ele)}
+            onMouseLeave={() => handleMouseOverImgToProps(null)}
             src={ele.url} 
             alt={""} 
           />
@@ -37,7 +39,8 @@ function Clock(props){
           <div className={className}>
             <span>{index+1}</span>
             <img 
-              onClick={() => handleClickImage(ele)}
+              onMouseEnter={() => handleMouseOverImgToProps(ele)}
+              onMouseLeave={() => handleMouseOverImgToProps(null)}
               src={ele.url} 
               alt={""} 
             />
@@ -76,10 +79,9 @@ function Clock(props){
     let sec, min, hour;
     
     function setTime() {
-      const now = new Date();
       
+      const now = new Date();
       sec = now.getSeconds();
-
 
       const secdeg = ((sec / 60) * 360);
       sechand.style.transform = `rotate(${secdeg}deg)`;
@@ -91,11 +93,13 @@ function Clock(props){
       hour = now.getHours();
       const hourdeg = ((hour + min/60) / 12 * 360);
       hourhand.style.transform = `rotate(${hourdeg}deg)`;
+
+      handleSound();
+
     }
     
     cloneTicks();	
     setInterval(setTime, 1000);
-
   }, []);
   
   return (
@@ -104,15 +108,15 @@ function Clock(props){
         className="clock">
           <div id="clockface">
               <div 
-                onClick={handleClickImage}
+                onClick={handleMouseOverImg}
                 className="hand hour">
-                {renderImgArray(imgArray, 4, "hour")}
+                {renderImgArray(imgArray, 5, "hour")}
               </div>
               <div className="hand min">
-                {renderImgArray(imgArray, 4, "min")}
+                {renderImgArray(imgArray, 5, "min")}
               </div>
               <div className="hand sec">
-                {renderImgArray(imgArray, 5, "sec")}
+                {renderImgArray(imgArray, 6, "sec")}
               </div>
               <div className="centerpoint"></div>
               {renderImgArray(imgArray, 12, "numbers")}
